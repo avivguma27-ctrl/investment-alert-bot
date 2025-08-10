@@ -17,8 +17,10 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
-        run: pip install yfinance requests beautifulsoup4 feedparser python-telegram-bot transformers pandas
+      - name: Install dependencies including PyTorch
+        run: |
+          pip install yfinance requests beautifulsoup4 feedparser python-telegram-bot transformers pandas
+          pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 
       - name: Run advanced bot script
         env:
