@@ -13,10 +13,11 @@ def send_sms(message):
     print(f"Sent SMS with SID: {msg.sid}")
 
 def check_stock(ticker="AAPL"):
+    print("=== Starting stock check ===")
     stock = yf.Ticker(ticker)
     hist = stock.history(period="2d")
     if len(hist) < 2:
-        print("Not enough data")
+        print("Not enough data to compare.")
         return
     today_close = hist['Close'].iloc[-1]
     yesterday_close = hist['Close'].iloc[-2]
@@ -27,6 +28,7 @@ def check_stock(ticker="AAPL"):
         send_sms(msg)
     else:
         print("Change less than 2%, no SMS sent.")
+    print("=== Finished stock check ===")
 
 if __name__ == "__main__":
     check_stock()
