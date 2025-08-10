@@ -1,0 +1,22 @@
+name: Run Investment Alert Bot
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # מריץ כל שעה, בדקה 0
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install yfinance python-telegram-bot requests beautifulsoup4 feedparser
+      - name: Run script
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python investment_alert.py
