@@ -1,25 +1,28 @@
-name: Run Simple Stock Alert SMS
+name: Run Stock Alert SMS Bot
 
 on:
   schedule:
     - cron: '0 * * * *'  # כל שעה בדקה 0
-  workflow_dispatch:
+  workflow_dispatch:      # אפשרות להפעיל ידנית
 
 jobs:
-  run:
+  run-bot:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+      
       - name: Install dependencies
         run: pip install yfinance twilio
-      - name: Run script
+      
+      - name: Run stock alert script
         env:
           TWILIO_SID: ${{ secrets.TWILIO_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_PHONE: ${{ secrets.TWILIO_PHONE }}
           TARGET_PHONE: ${{ secrets.TARGET_PHONE }}
-        run: python your_script_name.py
+        run: python stock_alert_sms.py
