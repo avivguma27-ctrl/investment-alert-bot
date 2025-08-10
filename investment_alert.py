@@ -12,11 +12,17 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 bot = Bot(token=TELEGRAM_TOKEN)
 
 def send_telegram_message(message):
-    try:
-        bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
-        print("Message sent")
-    except Exception as e:
-        print("Failed to send telegram message:", e)
+    print("Trying to send message:", message)
+    if not bot:
+        print("Telegram bot not configured")
+        return
+    for cid in CHAT_IDS:
+        try:
+            bot.send_message(chat_id=cid, text=message)
+            print(f"Message sent to chat ID: {cid}")
+        except Exception as e:
+            print("Failed to send to", cid, e)
+
 
 def get_stock_price(ticker):
     try:
